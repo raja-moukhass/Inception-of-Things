@@ -21,8 +21,8 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://${server
 
 yum install net-tools -y
 
-scp root@${server_ip}:/etc/rancher/k3s/k3s.yaml ~/.k3s.yaml
+mkdir /etc/rancher/k3s
+scp root@${server_ip}:/etc/rancher/k3s/k3s.yaml /etc/rancher/k3s/k3s.yaml
 
-echo "alias k='kubectl'" >> ~/.bash_aliases
-echo "source ~/.bash_aliases" >> ~/.bash_profile
-echo 'KUBECONFIG="$HOME/.k3s.yaml"'  >> ~/.bash_profile
+chmod +r /etc/rancher/k3s/k3s.yaml
+echo "alias k='kubectl'" >> /etc/profile.d/00-aliases.sh
