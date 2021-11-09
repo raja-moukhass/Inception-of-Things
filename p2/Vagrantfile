@@ -19,7 +19,8 @@ Vagrant.configure("2") do |config|
 		master.vm.network :private_network, ip: MASTER_IP
 		master.vm.provision "file", source: "~/.ssh/id_rsa", destination: "/tmp/id_rsa"
 		master.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/tmp/id_rsa.pub"
-		master.vm.provision "file", source: "./confs/app1.yaml", destination: "/tmp/app1.yaml"
+		master.vm.provision "file", source: "./scripts/19.03.sh", destination: "/tmp/19.03.sh"
+		master.vm.provision "file", source: "./confs/apps_config.yaml", destination: "/tmp/apps_config.yaml"
 		master.vm.provision "shell", privileged: true, path: "scripts/master_install.sh"
 		master.vm.provider "virtualbox" do |v|
 			v.name = MASTER_NAME
