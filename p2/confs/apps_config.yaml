@@ -14,12 +14,14 @@ spec:
         spec:
             containers:
             - name: app-one
-              image: rancher/hello-world
+              image: paulbouwer/hello-kubernetes:1.10
               env:
               - name: MESSAGE
                 value: "Hello from app1."
+              - name: KUBERNETES_NAMESPACE
+                value: "default"
               ports:
-              - containerPort: 80
+              - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -29,6 +31,7 @@ spec:
     ports:
     - name: http
       port: 80
+      targetPort: 8080
     selector:
         app: app-one
 ---
@@ -48,12 +51,14 @@ spec:
         spec:
             containers:
             - name: app-two
-              image: rancher/hello-world
+              image: paulbouwer/hello-kubernetes:1.10
               env:
               - name: MESSAGE
                 value: "Hello from app2."
+              - name: KUBERNETES_NAMESPACE
+                value: "default"
               ports:
-              - containerPort: 80
+              - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -63,6 +68,7 @@ spec:
     ports:
     - name: http
       port: 80
+      targetPort: 8080
     selector:
         app: app-two
 ---
@@ -82,12 +88,14 @@ spec:
         spec:
             containers:
             - name: app-three
-              image: rancher/hello-world
+              image: paulbouwer/hello-kubernetes:1.10
               env:
               - name: MESSAGE
                 value: "Hello from app3."
+              - name: KUBERNETES_NAMESPACE
+                value: "default"
               ports:
-              - containerPort: 80
+              - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
@@ -97,6 +105,7 @@ spec:
     ports:
     - name: http
       port: 80
+      targetPort: 8080
     selector:
         app: app-three
 ---

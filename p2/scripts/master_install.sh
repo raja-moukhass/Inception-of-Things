@@ -19,4 +19,5 @@ echo "alias k='kubectl'" >> /etc/profile.d/00-aliases.sh
 ##PODS##
 cat /tmp/apps_config.yaml >> ~/.apps_config.yaml
 
+sleep 30
 /usr/local/bin/kubectl create -f ~/.apps_config.yaml
