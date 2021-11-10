@@ -14,7 +14,7 @@ spec:
         spec:
             containers:
             - name: app-one
-              image: paulbouwer/hello-kubernetes
+              image: rancher/hello-world
               env:
               - name: MESSAGE
                 value: "Hello from app1."
@@ -48,7 +48,7 @@ spec:
         spec:
             containers:
             - name: app-two
-              image: paulbouwer/hello-kubernetes
+              image: rancher/hello-world
               env:
               - name: MESSAGE
                 value: "Hello from app2."
@@ -82,7 +82,7 @@ spec:
         spec:
             containers:
             - name: app-three
-              image: paulbouwer/hello-kubernetes
+              image: rancher/hello-world
               env:
               - name: MESSAGE
                 value: "Hello from app3."
