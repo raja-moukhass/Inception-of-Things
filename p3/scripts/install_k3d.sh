@@ -1,5 +1,14 @@
+#!/bin/bash
+
 #INSTALL DOCKER-CE IN UBUNTU
 #https://docs.docker.com/engine/install/ubuntu/
+
+if [ $1="password" ]
+	then
+		sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+		echo ""
+		exit
+fi
 
 sudo apt-get update
 sudo apt-get install \
@@ -25,23 +34,16 @@ sudo mv ./kubectl /usr/local/bin/kubectl
 #https://k3d.io/v5.1.0/
 
 sudo wget -q -O - https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
-sudo k3d cluster create mycluster
+sudo k3d cluster create mycluster -p "443:443@loadbalancer" -p "8888:8888@loadbalancer"
 
 #INSTALL ARGO CD
 sudo kubectl create namespace argocd
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-#EXPOSE IP OF ARGOCD
-sudo kubectl port-forward --address 0.0.0.0 svc/argocd-server -n argocd 8080:443 & >> argocd_logs.tmp
-
-#GET PASSWORD OF ADMIN
-sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+sudo kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+sudo kubectl apply -n argocd -f ingress-argocd.yaml 
 
 #CREATE NAMESPACE DEV
 sudo kubectl create namespace dev
 
 #LET ARGOCD HANDLE THE DEPLOYMENT FROM GITHUB
-sudo kubectl apply -f namespace argocd my_app.yaml
- 
-#EXPOSE IP OF APP DEPLOYED
-sudo kubectl port-forward --address 0.0.0.0 svc/app-wil -n dev 8888:8888 & >> dev_logs.tmp
+sudo kubectl apply -n dev -f my_app.yaml
