@@ -11,3 +11,4 @@ chmod +x /tmp/kubectl
 scp -o StrictHostKeyChecking=no root@${master_ip}:/etc/rancher/k3s/k3s.yaml /tmp/.k3s.yaml
 export KUBECONFIG="/tmp/.k3s.yaml"
 alias kubectl="/tmp/kubectl"
+alias k="/tmp/kubectl"
