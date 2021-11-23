@@ -29,6 +29,7 @@ sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin/kubectl
+alias k="sudo /usr/local/bin/kubectl"
 
 #INSTALL K3D and Create cluster of one node
 #https://k3d.io/v5.1.0/
@@ -41,9 +42,3 @@ sudo kubectl create namespace argocd
 sudo kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 sudo kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 sudo kubectl apply -n argocd -f ingress-argocd.yaml 
-
-#CREATE NAMESPACE DEV
-sudo kubectl create namespace dev
-
-#LET ARGOCD HANDLE THE DEPLOYMENT FROM GITHUB
-sudo kubectl apply -n dev -f my_app.yaml
