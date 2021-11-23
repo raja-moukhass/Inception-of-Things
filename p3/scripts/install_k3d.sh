@@ -3,7 +3,7 @@
 #INSTALL DOCKER-CE IN UBUNTU
 #https://docs.docker.com/engine/install/ubuntu/
 
-if [ $1="password" ]
+if [ "$1" = "password" ];
 	then
 		sudo kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 		echo ""
